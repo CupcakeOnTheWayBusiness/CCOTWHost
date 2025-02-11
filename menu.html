@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupcake on the Way</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #ff69b4;
+        }
+        .menu {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .cupcake {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .cupcake:last-child {
+            border-bottom: none;
+        }
+        .order-summary {
+            margin-top: 20px;
+            padding: 10px;
+            background: #ffebcd;
+            border-radius: 8px;
+        }
+        button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff1493;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Cupcake on the Way</h1>
+    <div class="menu">
+        <div class="cupcake">
+            <span>Classic Vanilla</span>
+            <span>$2.50</span>
+            <button onclick="addToOrder('Classic Vanilla', 2.50)">Add to Order</button>
+        </div>
+        <div class="cupcake">
+            <span>Chocolate Delight</span>
+            <span>$2.75</span>
+            <button onclick="addToOrder('Chocolate Delight', 2.75)">Add to Order</button>
+        </div>
+        <div class="cupcake">
+            <span>Red Velvet</span>
+            <span>$3.00</span>
+            <button onclick="addToOrder('Red Velvet', 3.00)">Add to Order</button>
+        </div>
+        <div class="cupcake">
+            <span>Lemon Zest</span>
+            <span>$2.50</span>
+            <button onclick="addToOrder('Lemon Zest', 2.50)">Add to Order</button>
+        </div>
+        <div class="cupcake">
+            <span>Carrot Cake</span>
+            <span>$3.25</span>
+            <button onclick="addToOrder('Carrot Cake', 3.25)">Add to Order</button>
+        </div>
+        <div class="cupcake">
+            <span>Cookies and Cream</span>
+            <span>$3.00</span>
+            <button onclick="addToOrder('Cookies and Cream', 3.00)">Add to Order</button>
+        </div>
+        <div class="cupcake">
+            <span>Strawberry Shortcake</span>
+            <span>$3.50</span>
+            <button onclick="addToOrder('Strawberry Shortcake', 3.50)">Add to Order</button>
+        </div>
+        <div class="cupcake">
+            <span>Peanut Butter Cup</span>
+            <span>$3.25</span>
+            <button onclick="addToOrder('Peanut Butter Cup', 3.25)">Add to Order</button>
+        </div>
+        <div class="cupcake">
+            <span>Salted Caramel</span>
+            <span>$3.00</span>
+            <button onclick="addToOrder('Salted Caramel', 3.00)">Add to Order</button>
+        </div>
+        <div class="cupcake">
+            <span>Funfetti</span>
+            <span>$2.75</span>
+            <button onclick="addToOrder('Funfetti', 2.75)">Add to Order</button>
+        </div>
+    </div>
+
+    <div class="order-summary" id="order-summary">
+        <h2>Your Order</h2>
+        <ul id="order-list"></ul>
+        <strong>Total: $<span id="total-price">0.00</span></strong>
+        <div>
+            <input type="text" id="voucher-code" placeholder="Enter voucher code">
+            <button onclick="applyVoucher()">Apply Voucher</button>
+        </div>
+        <strong>Discount: $<span id="discount">0.00</span></strong>
+        <strong>Final Total: $<span id="final-total">0.00</span></strong>
+        <script>
+            function applyVoucher() {
+                const voucherCode = document.getElementById('voucher-code').value;
+                let discount = 0;
+
+                // Example logic for voucher code validation
+                if (voucherCode === 'X6RgzCXb') {
+                    discount = 35; // $10 discount
+                } else if (voucherCode === 'STAFFX6RgzCXb') {
+                    discount = 100; // $5 discount
+                }
+
+                // Update the discount and final total
+                document.getElementById('discount').innerText = discount.toFixed(2);
+                const finalTotal = total - discount;
+                document.getElementById('final-total').innerText = finalTotal.toFixed(2);
+            }
+        </script>
+
+    </div>
+
+    <script>
+        let order = [];
+        let total = 0;
+
+        function addToOrder(cupcake, price) {
+            console.log(`Adding ${cupcake} to order for $${price}`);
+            order.push({ cupcake, price });
+
+            total += price;
+            updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            console.log('Updating order summary');
+            const orderList = document.getElementById('order-list');
+            orderList.innerHTML = '';
+
+            order.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${item.cupcake} - $${item.price.toFixed(2)}`;
+                orderList.appendChild(listItem);
+            });
+            document.getElementById('total-price').innerText = total.toFixed(2);
+        }
+        </script>
+</body>
+</html>
