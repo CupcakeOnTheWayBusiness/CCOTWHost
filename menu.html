@@ -57,52 +57,52 @@
     <div class="menu">
         <div class="cupcake">
             <span>Classic Vanilla</span>
-            <span>$2.50</span>
+            <span>£1.75</span>
             <button onclick="addToOrder('Classic Vanilla', 2.50)">Add to Order</button>
         </div>
         <div class="cupcake">
             <span>Chocolate Delight</span>
-            <span>$2.75</span>
+            <span>£1.75</span>
             <button onclick="addToOrder('Chocolate Delight', 2.75)">Add to Order</button>
         </div>
         <div class="cupcake">
             <span>Red Velvet</span>
-            <span>$3.00</span>
+            <span>£1.75</span>
             <button onclick="addToOrder('Red Velvet', 3.00)">Add to Order</button>
         </div>
         <div class="cupcake">
             <span>Lemon Zest</span>
-            <span>$2.50</span>
+            <span>£1.75</span>
             <button onclick="addToOrder('Lemon Zest', 2.50)">Add to Order</button>
         </div>
         <div class="cupcake">
             <span>Carrot Cake</span>
-            <span>$3.25</span>
+            <span>£1.75</span>
             <button onclick="addToOrder('Carrot Cake', 3.25)">Add to Order</button>
         </div>
-        <div class="cupcake">
-            <span>Cookies and Cream</span>
-            <span>$3.00</span>
+        <div class="cookie">
+            <span>Cookies and Cream sandwitch</span>
+            <span>£1.75</span>
             <button onclick="addToOrder('Cookies and Cream', 3.00)">Add to Order</button>
         </div>
-        <div class="cupcake">
-            <span>Strawberry Shortcake</span>
-            <span>$3.50</span>
+        <div class="cookie">
+            <span>random ccokie</span>
+            <span>£1.75</span>
             <button onclick="addToOrder('Strawberry Shortcake', 3.50)">Add to Order</button>
         </div>
         <div class="cupcake">
             <span>Peanut Butter Cup</span>
-            <span>$3.25</span>
+            <span>£1.75</span>
             <button onclick="addToOrder('Peanut Butter Cup', 3.25)">Add to Order</button>
         </div>
         <div class="cupcake">
             <span>Salted Caramel</span>
-            <span>$3.00</span>
+            <span>£1.75</span>
             <button onclick="addToOrder('Salted Caramel', 3.00)">Add to Order</button>
         </div>
         <div class="cupcake">
             <span>Funfetti</span>
-            <span>$2.75</span>
+            <span>£1.75</span>
             <button onclick="addToOrder('Funfetti', 2.75)">Add to Order</button>
         </div>
     </div>
@@ -110,13 +110,13 @@
     <div class="order-summary" id="order-summary">
         <h2>Your Order</h2>
         <ul id="order-list"></ul>
-        <strong>Total: $<span id="total-price">0.00</span></strong>
+        <strong>Total: £<span id="total-price">0.00</span></strong>
         <div>
             <input type="text" id="voucher-code" placeholder="Enter voucher code">
             <button onclick="applyVoucher()">Apply Voucher</button>
         </div>
-        <strong>Discount: $<span id="discount">0.00</span></strong>
-        <strong>Final Total: $<span id="final-total">0.00</span></strong>
+        <strong>Discount: £<span id="discount">0.00</span></strong>
+        <strong>Final Total: £<span id="final-total">0.00</span></strong>
         <script>
             function applyVoucher() {
                 const voucherCode = document.getElementById('voucher-code').value;
@@ -124,9 +124,9 @@
 
                 // Example logic for voucher code validation
                 if (voucherCode === 'X6RgzCXb') {
-                    discount = 35; // $10 discount
+                    discount = 35; // £10 discount
                 } else if (voucherCode === 'STAFFX6RgzCXb') {
-                    discount = 100; // $5 discount
+                    discount = 100; // £5 discount
                 }
 
                 // Update the discount and final total
@@ -143,7 +143,7 @@
         let total = 0;
 
         function addToOrder(cupcake, price) {
-            console.log(`Adding ${cupcake} to order for $${price}`);
+            console.log(`Adding £{cupcake} to order for ££{price}`);
             order.push({ cupcake, price });
 
             total += price;
@@ -157,7 +157,7 @@
 
             order.forEach(item => {
                 const listItem = document.createElement('li');
-                listItem.textContent = `${item.cupcake} - $${item.price.toFixed(2)}`;
+                listItem.textContent = `£{item.cupcake} - ££{item.price.toFixed(2)}`;
                 orderList.appendChild(listItem);
             });
             document.getElementById('total-price').innerText = total.toFixed(2);
