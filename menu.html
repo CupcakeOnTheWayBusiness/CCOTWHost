@@ -58,32 +58,44 @@
         <div class="cupcake">
             <span>Classic Vanilla</span>
             <span>£1.75</span>
-            <button onclick="addToOrder('Classic Vanilla', 2.50)">Add to Order</button>
+            <input type="number" value="1" min="1" id="quantity-classic-vanilla" />
+            <button onclick="addToOrder('Classic Vanilla', 1.75, document.getElementById('quantity-classic-vanilla').value)">Add to Order</button>
+
         </div>
         <div class="cupcake">
             <span>Chocolate Delight</span>
             <span>£1.75</span>
-            <button onclick="addToOrder('Chocolate Delight', 2.75)">Add to Order</button>
+            <input type="number" value="1" min="1" id="quantity-chocolate-delight" />
+            <button onclick="addToOrder('Chocolate Delight', 1.75, document.getElementById('quantity-chocolate-delight').value)">Add to Order</button>
+
         </div>
         <div class="cupcake">
             <span>Red Velvet</span>
             <span>£1.75</span>
-            <button onclick="addToOrder('Red Velvet', 3.00)">Add to Order</button>
+            <input type="number" value="1" min="1" id="quantity-red-velvet" />
+            <button onclick="addToOrder('Red Velvet', 1.75, document.getElementById('quantity-red-velvet').value)">Add to Order</button>
+
         </div>
         <div class="cupcake">
             <span>Lemon Zest</span>
             <span>£1.75</span>
-            <button onclick="addToOrder('Lemon Zest', 2.50)">Add to Order</button>
+            <input type="number" value="1" min="1" id="quantity-lemon-zest" />
+            <button onclick="addToOrder('Lemon Zest', 1.75, document.getElementById('quantity-lemon-zest').value)">Add to Order</button>
+
         </div>
         <div class="cupcake">
             <span>Carrot Cake</span>
             <span>£1.75</span>
-            <button onclick="addToOrder('Carrot Cake', 3.25)">Add to Order</button>
+            <input type="number" value="1" min="1" id="quantity-carrot-cake" />
+            <button onclick="addToOrder('Carrot Cake', 1.75, document.getElementById('quantity-carrot-cake').value)">Add to Order</button>
+
         </div>
         <div class="cookie">
             <span>Cookies and Cream sandwitch</span>
             <span>£1.75</span>
-            <button onclick="addToOrder('Cookies and Cream', 3.00)">Add to Order</button>
+            <input type="number" value="1" min="1" id="quantity-cookies-and-cream" />
+            <button onclick="addToOrder('Cookies and Cream', 1.75, document.getElementById('quantity-cookies-and-cream').value)">Add to Order</button>
+
         </div>
         <div class="cookie">
             <span>random ccokie</span>
@@ -93,17 +105,23 @@
         <div class="cupcake">
             <span>Peanut Butter Cup</span>
             <span>£1.75</span>
-            <button onclick="addToOrder('Peanut Butter Cup', 3.25)">Add to Order</button>
+            <input type="number" value="1" min="1" id="quantity-peanut-butter-cup" />
+            <button onclick="addToOrder('Peanut Butter Cup', 1.75, document.getElementById('quantity-peanut-butter-cup').value)">Add to Order</button>
+
         </div>
         <div class="cupcake">
             <span>Salted Caramel</span>
             <span>£1.75</span>
-            <button onclick="addToOrder('Salted Caramel', 3.00)">Add to Order</button>
+            <input type="number" value="1" min="1" id="quantity-salted-caramel" />
+            <button onclick="addToOrder('Salted Caramel', 1.75, document.getElementById('quantity-salted-caramel').value)">Add to Order</button>
+
         </div>
         <div class="cupcake">
             <span>Funfetti</span>
             <span>£1.75</span>
-            <button onclick="addToOrder('Funfetti', 2.75)">Add to Order</button>
+            <input type="number" value="1" min="1" id="quantity-funfetti" />
+            <button onclick="addToOrder('Funfetti', 1.75, document.getElementById('quantity-funfetti').value)">Add to Order</button>
+
         </div>
     </div>
 
@@ -142,11 +160,16 @@
         let order = [];
         let total = 0;
 
-        function addToOrder(cupcake, price) {
-            console.log(`Adding £{cupcake} to order for ££{price}`);
+        function addToOrder(cupcake, price, quantity) {
+            console.log(`Adding ${quantity} of £{cupcake} to order for £${(price * quantity).toFixed(2)}`);
+            for (let i = 0; i < quantity; i++) {
+                order.push({ cupcake, price });
+            }
+
             order.push({ cupcake, price });
 
-            total += price;
+            total += price * quantity;
+
             updateOrderSummary();
         }
 
@@ -157,7 +180,8 @@
 
             order.forEach(item => {
                 const listItem = document.createElement('li');
-                listItem.textContent = `£{item.cupcake} - ££{item.price.toFixed(2)}`;
+                listItem.textContent = `${quantity} x £{item.cupcake} - £${(item.price).toFixed(2)}`;
+
                 orderList.appendChild(listItem);
             });
             document.getElementById('total-price').innerText = total.toFixed(2);
