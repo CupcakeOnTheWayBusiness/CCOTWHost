@@ -26,6 +26,7 @@
         .cupcake {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 10px 0;
             border-bottom: 1px solid #eee;
         }
@@ -59,69 +60,13 @@
             <span>Classic Vanilla</span>
             <span>£1.75</span>
             <input type="number" value="1" min="1" id="quantity-classic-vanilla" />
-            <button onclick="addToOrder('Classic Vanilla', 1.75, document.getElementById('quantity-classic-vanilla').value)">Add to Order</button>
-
+            <button onclick="addToOrder('Classic Vanilla', 1.75, 'quantity-classic-vanilla')">Add to Order</button>
         </div>
         <div class="cupcake">
             <span>Chocolate Delight</span>
             <span>£1.75</span>
             <input type="number" value="1" min="1" id="quantity-chocolate-delight" />
-            <button onclick="addToOrder('Chocolate Delight', 1.75, document.getElementById('quantity-chocolate-delight').value)">Add to Order</button>
-
-        </div>
-        <div class="cupcake">
-            <span>Red Velvet</span>
-            <span>£1.75</span>
-            <input type="number" value="1" min="1" id="quantity-red-velvet" />
-            <button onclick="addToOrder('Red Velvet', 1.75, document.getElementById('quantity-red-velvet').value)">Add to Order</button>
-
-        </div>
-        <div class="cupcake">
-            <span>Lemon Zest</span>
-            <span>£1.75</span>
-            <input type="number" value="1" min="1" id="quantity-lemon-zest" />
-            <button onclick="addToOrder('Lemon Zest', 1.75, document.getElementById('quantity-lemon-zest').value)">Add to Order</button>
-
-        </div>
-        <div class="cupcake">
-            <span>Carrot Cake</span>
-            <span>£1.75</span>
-            <input type="number" value="1" min="1" id="quantity-carrot-cake" />
-            <button onclick="addToOrder('Carrot Cake', 1.75, document.getElementById('quantity-carrot-cake').value)">Add to Order</button>
-
-        </div>
-        <div class="cookie">
-            <span>Cookies and Cream sandwitch</span>
-            <span>£1.75</span>
-            <input type="number" value="1" min="1" id="quantity-cookies-and-cream" />
-            <button onclick="addToOrder('Cookies and Cream', 1.75, document.getElementById('quantity-cookies-and-cream').value)">Add to Order</button>
-
-        </div>
-        <div class="cookie">
-            <span>random ccokie</span>
-            <span>£1.75</span>
-            <button onclick="addToOrder('Strawberry Shortcake', 3.50)">Add to Order</button>
-        </div>
-        <div class="cupcake">
-            <span>Peanut Butter Cup</span>
-            <span>£1.75</span>
-            <input type="number" value="1" min="1" id="quantity-peanut-butter-cup" />
-            <button onclick="addToOrder('Peanut Butter Cup', 1.75, document.getElementById('quantity-peanut-butter-cup').value)">Add to Order</button>
-
-        </div>
-        <div class="cupcake">
-            <span>Salted Caramel</span>
-            <span>£1.75</span>
-            <input type="number" value="1" min="1" id="quantity-salted-caramel" />
-            <button onclick="addToOrder('Salted Caramel', 1.75, document.getElementById('quantity-salted-caramel').value)">Add to Order</button>
-
-        </div>
-        <div class="cupcake">
-            <span>Funfetti</span>
-            <span>£1.75</span>
-            <input type="number" value="1" min="1" id="quantity-funfetti" />
-            <button onclick="addToOrder('Funfetti', 1.75, document.getElementById('quantity-funfetti').value)">Add to Order</button>
-
+            <button onclick="addToOrder('Chocolate Delight', 1.75, 'quantity-chocolate-delight')">Add to Order</button>
         </div>
     </div>
 
@@ -135,57 +80,54 @@
         </div>
         <strong>Discount: £<span id="discount">0.00</span></strong>
         <strong>Final Total: £<span id="final-total">0.00</span></strong>
-        <script>
-            function applyVoucher() {
-                const voucherCode = document.getElementById('voucher-code').value;
-                let discount = 0;
-
-                // Example logic for voucher code validation
-                if (voucherCode === 'X6RgzCXb') {
-                    discount = 35; // £10 discount
-                } else if (voucherCode === 'STAFFX6RgzCXb') {
-                    discount = 100; // £5 discount
-                }
-
-                // Update the discount and final total
-                document.getElementById('discount').innerText = discount.toFixed(2);
-                const finalTotal = total - discount;
-                document.getElementById('final-total').innerText = finalTotal.toFixed(2);
-            }
-        </script>
-
     </div>
 
     <script>
         let order = [];
         let total = 0;
 
-        function addToOrder(cupcake, price, quantity) {
-            console.log(`Adding ${quantity} of £{cupcake} to order for £${(price * quantity).toFixed(2)}`);
-            for (let i = 0; i < quantity; i++) {
-                order.push({ cupcake, price });
+        function addToOrder(name, price, quantityId) {
+            let quantity = parseInt(document.getElementById(quantityId).value) || 1;
+            console.log(`Adding ${quantity} of ${name} to order for £${(price * quantity).toFixed(2)}`);
+
+            let existingItem = order.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                order.push({ name, price, quantity });
             }
-
-            order.push({ cupcake, price });
-
+            
             total += price * quantity;
-
             updateOrderSummary();
         }
 
         function updateOrderSummary() {
-            console.log('Updating order summary');
             const orderList = document.getElementById('order-list');
             orderList.innerHTML = '';
-
+            
             order.forEach(item => {
                 const listItem = document.createElement('li');
-                listItem.textContent = `${quantity} x £{item.cupcake} - £${(item.price).toFixed(2)}`;
-
+                listItem.textContent = `${item.quantity} x ${item.name} - £${(item.price * item.quantity).toFixed(2)}`;
                 orderList.appendChild(listItem);
             });
+            
             document.getElementById('total-price').innerText = total.toFixed(2);
         }
-        </script>
+
+        function applyVoucher() {
+            const voucherCode = document.getElementById('voucher-code').value;
+            let discount = 0;
+
+            if (voucherCode === 'X6RgzCXb') {
+                discount = 10; // £10 discount
+            } else if (voucherCode === 'STAFFX6RgzCXb') {
+                discount = 5; // £5 discount
+            }
+            
+            document.getElementById('discount').innerText = discount.toFixed(2);
+            const finalTotal = Math.max(total - discount, 0);
+            document.getElementById('final-total').innerText = finalTotal.toFixed(2);
+        }
+    </script>
 </body>
 </html>
