@@ -11,33 +11,22 @@
         /* Custom Styles for Modals */
         .modal {
             display: none;
-            /* Hidden by default */
             position: fixed;
-            /* Stay in place */
             z-index: 1000;
-            /* Sit on top */
             left: 0;
             top: 0;
             width: 100%;
-            /* Full width */
             height: 100%;
-            /* Full height */
             overflow: auto;
-            /* Enable scroll if needed */
-            background-color: rgb(0, 0, 0);
-            /* Fallback color */
             background-color: rgba(0, 0, 0, 0.4);
-            /* Black w/ opacity */
         }
 
         .modal-content {
             background-color: #fefefe;
             margin: 15% auto;
-            /* 15% from the top and centered */
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
-            /* Could be more or less, depending on screen size */
             max-width: 600px;
             border-radius: 8px;
         }
@@ -90,7 +79,7 @@
     <!-- The Modal -->
     <div id="auth-modal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close">×</span>
             <section id="auth">
                 <h2 class="text-2xl font-semibold mb-3">Sign Up / Log In</h2>
 
@@ -211,7 +200,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Initialize Supabase client
-            const SUPABASE_URL = 'https://qcsswhbglibnocbjlyqb.supabase.co';  // Replace with your Supabase URL
+            const SUPABASE_URL = 'Yhttps://qcsswhbglibnocbjlyqb.supabase.co';  // Replace with your Supabase URL
             const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjc3N3aGJnbGlibm9jYmpseXFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk1NjI3MTIsImV4cCI6MjA1NTEzODcxMn0.Gc3Relkb7KeM00tCbKv4a_dE1bYJNgkmGMFA80q6_5E'; // Replace with your Supabase Anon Key
             const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -219,10 +208,8 @@
             const signupForm = document.getElementById('signup-form');
             const signupEmailInput = document.getElementById('signup-email');
             const signupPasswordInput = document.getElementById('signup-password');
-            const signupButton = document.getElementById('signup-button');
             const signupMessage = document.getElementById('signup-message');
 
-            // change event listener to the form.
             signupForm.addEventListener('submit', async (e) => {
                 e.preventDefault(); // Prevent form submission
 
@@ -230,7 +217,7 @@
                 const password = signupPasswordInput.value;
 
                 try {
-                    const { data: { user }, error } = await supabase.auth.signUp({
+                    const { data, error } = await supabase.auth.signUp({
                         email: email,
                         password: password,
                         options: {
@@ -243,17 +230,16 @@
                         signupMessage.textContent = `Signup failed: ${error.message}`;
                         signupMessage.style.color = 'red';
                     } else {
-                        console.log('Signup successful:', user);
+                        console.log('Signup successful:', data);
 
                         // Insert user data into the Users table
-                        // checks if the table exists.
                         try {
                             const { data: insertData, error: insertError } = await supabase
                                 .from('Users') // Replace 'Users' with your actual table name
                                 .insert([
                                     {
-                                        id: user.id, // Assuming your Users table has a column 'id' that matches the user's UUID
-                                        email: user.email,
+                                        id: data.user.id, // Assuming your Users table has a column 'id' that matches the user's UUID
+                                        email: data.user.email,
                                         created_at: new Date(), // Optional: Add a timestamp
                                     },
                                 ]);
@@ -271,7 +257,9 @@
                             signupEmailInput.value = '';
                             signupPasswordInput.value = '';
                         } catch (insertError) {
-                            console.log("The table might not exist, error inserting user data:", insertError)
+                            console.error("Error inserting user data:", insertError);
+                            signupMessage.textContent = 'Signup successful, but there was an issue saving user data.';
+                            signupMessage.style.color = 'orange';
                         }
                     }
                 } catch (error) {
@@ -285,7 +273,6 @@
             const loginForm = document.getElementById('login-form');
             const loginEmailInput = document.getElementById('login-email');
             const loginPasswordInput = document.getElementById('login-password');
-            const loginButton = document.getElementById('login-button');
             const loginMessage = document.getElementById('login-message');
 
             loginForm.addEventListener('submit', async (e) => {
