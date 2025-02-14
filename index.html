@@ -1,1 +1,270 @@
-<h1> Hello! Cupcake on the way is being updated.  Please check back later. ERROR 302</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupcake On The Way</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+<header class="bg-red-500 text-white py-6 text-center">
+    <h1 class="text-4xl font-bold">Cupcake On The Way</h1>
+    <nav class="mt-4">
+        <a href="#about" class="mx-4 hover:underline">About Us</a>
+        <a href="menu.html" class="mx-4 hover:underline">Menu</a>
+        <a href="#contact" class="mx-4 hover:underline">Contact</a>
+    </nav>
+</header>
+
+<div id="data-consent-overlay" class="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 z-50 hidden">
+    <div id="data-consent-popup" class="bg-white rounded-lg p-6 w-full max-w-md mx-auto mt-32">
+        <h2 class="text-2xl font-semibold mb-4">Data Consent</h2>
+        <p class="text-gray-700 mb-4">
+            This website uses cookies and other technologies to collect data to improve your experience and for other purposes described in our <a href="/privacy.html" class="text-red-500 hover:underline">Privacy Policy</a>.
+        </p>
+        <div class="flex justify-end">
+            <button id="data-consent-decline" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2 focus:outline-none focus:shadow-outline">Decline</button>
+            <button id="data-consent-accept" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Accept</button>
+        </div>
+    </div>
+</div>
+
+<div class="container mx-auto p-6">
+    <section id="about" class="bg-white shadow-md rounded-lg p-6 my-6">
+        <h2 class="text-2xl font-semibold mb-3">About Us</h2>
+        <p class="text-gray-700">Welcome to <strong>Cupcake On The Way</strong>! We specialize in delicious, handcrafted desserts made with all-natural ingredients. Our mission is to bring joy to your day with every bite!</p>
+    </section>
+
+    <section id="menu" class="bg-white shadow-md rounded-lg p-6 my-6">
+        <h2 class="text-2xl font-semibold mb-3">Featured Cupcakes</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="cupcake bg-gray-50 p-4 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-bold">Chocolate Delight</h3>
+                <p class="text-gray-600">Rich chocolate cupcake topped with creamy chocolate frosting.</p>
+            </div>
+            <div class="cupcake bg-gray-50 p-4 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-bold">Vanilla Dream</h3>
+                <p class="text-gray-600">Classic vanilla cupcake with a swirl of vanilla buttercream.</p>
+            </div>
+            <div class="cupcake bg-gray-50 p-4 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-bold">Red Velvet Bliss</h3>
+                <p class="text-gray-600">Moist red velvet cupcake with cream cheese frosting.</p>
+            </div>
+            <div class="cupcake bg-gray-50 p-4 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-bold">Lemon Zest</h3>
+                <p class="text-gray-600">Refreshing lemon cupcake with zesty lemon frosting.</p>
+            </div>
+            <div class="cupcake bg-gray-50 p-4 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-bold">Honey Comb Bon</h3>
+                <p class="text-gray-600">A perfect mix of honeycomb and a generous amount of icing.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="auth" class="bg-white shadow-md rounded-lg p-6 my-6">
+        <h2 class="text-2xl font-semibold mb-3">Sign Up / Log In</h2>
+
+        <div id="signup-form">
+            <h3 class="text-xl font-semibold mb-2">Sign Up</h3>
+            <div class="mb-4">
+                <label for="signup-email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                <input type="email" id="signup-email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-6">
+                <label for="signup-password" class="block text-gray-700 text-sm font-bold mb-2">Password:</label>
+                <input type="password" id="signup-password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <button id="signup-button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Sign Up</button>
+            <p id="signup-message" class="text-sm mt-2"></p>
+        </div>
+
+        <div id="login-form">
+            <h3 class="text-xl font-semibold mb-2">Log In</h3>
+            <div class="mb-4">
+                <label for="login-email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                <input type="email" id="login-email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-6">
+                <label for="login-password" class="block text-gray-700 text-sm font-bold mb-2">Password:</label>
+                <input type="password" id="login-password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <button id="login-button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Log In</button>
+            <p id="login-message" class="text-sm mt-2"></p>
+        </div>
+    </section>
+
+    <section id="contact" class="bg-white shadow-md rounded-lg p-6 my-6 text-center">
+        <h2 class="text-2xl font-semibold mb-3">Contact Us</h2>
+        <p class="text-gray-700">If you have any questions or would like to place an order, feel free to reach out!</p>
+        <p class="text-gray-700"><strong>Email:</strong> info@cupcakeontheway.com</p>
+        <p class="text-gray-700"><strong>Phone:</strong> (123) 456-7890</p>
+    </section>
+</div>
+
+<footer class="bg-gray-900 text-white text-center py-4 mt-6">
+    <p>© 2025 Cupcake On The Way. All rights reserved.</p>
+</footer>
+
+<script>
+    // Initialize Supabase client
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL';  // Replace with your Supabase URL
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase Anon Key
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // --- Sign Up ---
+    const signupForm = document.getElementById('signup-form');
+    const signupEmailInput = document.getElementById('signup-email');
+    const signupPasswordInput = document.getElementById('signup-password');
+    const signupButton = document.getElementById('signup-button');
+    const signupMessage = document.getElementById('signup-message');
+
+    signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevent form submission
+
+        const email = signupEmailInput.value;
+        const password = signupPasswordInput.value;
+
+        try {
+            const { data, error } = await supabase.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                    emailRedirectTo: window.location.origin, // Redirect to the homepage after email confirmation
+                },
+            });
+
+            if (error) {
+                console.error('Signup error:', error);
+                signupMessage.textContent = `Signup failed: ${error.message}`;
+                signupMessage.style.color = 'red';
+            } else {
+                console.log('Signup successful:', data);
+                signupMessage.textContent = 'Signup successful! Check your email to confirm your account.';
+                signupMessage.style.color = 'green';
+                signupEmailInput.value = '';
+                signupPasswordInput.value = '';
+            }
+        } catch (error) {
+            console.error('Unexpected signup error:', error);
+            signupMessage.textContent = 'An unexpected error occurred.';
+            signupMessage.style.color = 'red';
+        }
+    });
+
+    // --- Log In ---
+    const loginForm = document.getElementById('login-form');
+    const loginEmailInput = document.getElementById('login-email');
+    const loginPasswordInput = document.getElementById('login-password');
+    const loginButton = document.getElementById('login-button');
+    const loginMessage = document.getElementById('login-message');
+
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevent form submission
+
+        const email = loginEmailInput.value;
+        const password = loginPasswordInput.value;
+
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                console.error('Login error:', error);
+                loginMessage.textContent = `Login failed: ${error.message}`;
+                loginMessage.style.color = 'red';
+            } else {
+                console.log('Login successful:', data);
+                loginMessage.textContent = 'Login successful!';
+                loginMessage.style.color = 'green';
+                loginEmailInput.value = '';
+                loginPasswordInput.value = '';
+
+                // Optionally, redirect to a protected page after login
+                // window.location.href = '/profile.html';
+            }
+        } catch (error) {
+            console.error('Unexpected login error:', error);
+            loginMessage.textContent = 'An unexpected error occurred.';
+            loginMessage.style.color = 'red';
+        }
+    });
+
+    // Data Consent Logic
+    const consentOverlay = document.getElementById('data-consent-overlay');
+    const acceptButton = document.getElementById('data-consent-accept');
+    const declineButton = document.getElementById('data-consent-decline');
+
+    // Function to show the consent popup
+    function showConsentPopup() {
+        consentOverlay.classList.remove('hidden'); // Show the overlay
+    }
+
+    // Function to hide the consent popup
+    function hideConsentPopup() {
+        consentOverlay.classList.add('hidden'); // Hide the overlay
+    }
+
+
+    // Check if the user has already given consent
+    if (localStorage.getItem('dataConsent') === null) {
+        // Show the popup if consent hasn't been given
+        showConsentPopup();
+    }
+
+    // Handle Accept button click
+    acceptButton.addEventListener('click', () => {
+        // Store consent in local storage
+        localStorage.setItem('dataConsent', 'accepted');
+        hideConsentPopup();
+        // Add any code here to start data collection/tracking
+        console.log('Data consent accepted.');
+    });
+
+    // Handle Decline button click
+    declineButton.addEventListener('click', () => {
+        // Store consent in local storage (you might want to store "declined" explicitly)
+        localStorage.setItem('dataConsent', 'declined');
+        hideConsentPopup();
+        // Add any code here to disable data collection/tracking
+        console.log('Data consent declined.');
+    });
+
+
+      // Check authentication state on page load
+      async function checkAuthState() {
+          const { data: { session } } = await supabase.auth.getSession()
+
+          if (session) {
+            console.log('User is already logged in:', session.user);
+            // Optionally, redirect to a profile page or update the UI
+            // window.location.href = '/profile.html';
+          } else {
+            console.log('User is not logged in.');
+            // Optionally, show login/signup forms
+          }
+        }
+
+        async function handleSupabaseRedirect() {
+          const params = new URLSearchParams(window.location.search);
+          const type = params.get('type');
+
+          if (type === 'recovery') {
+            //Handle recovery
+            console.log("Handle Recovery");
+          } else if (type === 'signup') {
+            // Handle signup
+            console.log("Handle Signup");
+          }
+        }
+
+        checkAuthState(); // Call the function when the page loads
+        handleSupabaseRedirect();
+
+</script>
+
+</body>
+</html>
